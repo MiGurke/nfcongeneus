@@ -4,4 +4,4 @@ channels:
  - default
 dependencies:
  - samtools=1.12
- - angsd=0.938
+ - angsd=0.935
