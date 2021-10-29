@@ -1,0 +1,6 @@
+channels:
+ - bioconda
+ - default
+dependencies:
+ - samtools=1.12
+ - angsd=0.938
