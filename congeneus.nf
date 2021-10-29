@@ -18,18 +18,18 @@ log.info """\
    .fromPath("${params.bamdir}*/*.bam")
    .set{bam_ch}
 
-   if (params.feat != null) {
-     process GetFeat {
-       output:
-       stdout into chunk_list
-       stdout into chunk_list2
+if (params.feat != null) {
+ process GetFeat {
+   output:
+   stdout into chunk_list
+   stdout into chunk_list2
 
-       script:
-       """
-       awk '\$3 == "${params.feat}" {print \$1":"\$4"-"\$5}' ${params.anno}
-       """
-     }
-   }
+   script:
+   """
+   awk '\$3 == "${params.feat}" {print \$1":"\$4"-"\$5}' ${params.anno}
+   """
+ }
+}
 
 if (params.win_size != null) {
 
