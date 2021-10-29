@@ -1,3 +1,4 @@
+name: nfcong
 channels:
  - bioconda
  - default
