@@ -7,16 +7,18 @@ log.info """\
          Reference file          : ${params.ref}
          Chromosome list         : ${params.chr}
          Window size             : ${params.win_size}
+         Region skip             : ${params.skip}
          Feature                 : ${params.feat}
          Min Depth               : ${params.mindepth}
          Output directory        : ${params.outdir}
          """
          .stripIndent()
 
- // holds the individual bam files
+ // holds the individual bam files and their index files
  Channel
-   .fromPath("${params.bamdir}*/*.bam")
-   .set{bam_ch}
+    .fromFilePairs("${params.bamdir}*/*{.bam,.bam.bai}")
+    .set{bambai_ch}
+
 
 if (params.feat != null) {
  process GetFeat {
@@ -52,6 +54,7 @@ if (params.win_size != null) {
   chr = "$chr"
   ref = SeqIO.parse("$params.ref","fasta")
   piece = $params.win_size
+  skip = $params.skip
 
   for rec in ref:
       id = rec.id
@@ -66,11 +69,11 @@ if (params.win_size != null) {
                       start = 0
                       end = piece * i
                   elif i == int(nparts):
-                      start = piece * i + 1
+                      start = (piece + skip) * i + 1
                       end = len(rec.seq)
                   else:
-                      start = piece * (i-1) + 1
-                      end = piece * i
+                      start = (piece + skip) * (i-1) + 1
+                      end = start + piece
                   line = "$chr"+":"+str(start)+"-"+str(end)
                   print(line)
     """
@@ -80,23 +83,11 @@ if (params.win_size != null) {
 chunk_ch = chunk_list.splitText()
 chunk_ch2 = chunk_list2.splitText()
 
-process IndexBAM {
-  input:
-  file(bam) from bam_ch
-
-  output:
-  tuple file(bam), file('*.bai') into bambai_ch
-
-  script:
-  """
-  samtools index $bam
-  """
-}
 
 process GetBams {
 
   input:
-  tuple file(bam), file(bai) from bambai_ch
+  set val(sample_id), file(bam), file(bai) from bambai_ch
   each chunk from chunk_ch
 
   output:
@@ -107,7 +98,7 @@ process GetBams {
   chunkkk = chunkk.replaceAll(':','_')
   chunkkkk = chunkkk.replaceAll('\\.','_')
   """
-  samtools view -h -X $bam $bai ${chunkk} > ${bam.baseName}_${chunkkkk}.bam
+  samtools view -h -X $bam $bai ${chunkk} > ${sample_id}_${chunkkkk}.bam
   """
 }
 
