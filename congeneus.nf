@@ -22,9 +22,9 @@ log.info """\
 
 if (params.feat != null) {
  process GetFeat {
-
    output:
    stdout into chunk_list
+   stdout into chunk_list2
 
    script:
    """
@@ -44,6 +44,7 @@ if (params.win_size != null) {
 
     output:
     stdout into chunk_list
+    stdout into chunk_list2
 
     script:
     """
@@ -80,6 +81,7 @@ if (params.win_size != null) {
 }
 
 chunk_ch = chunk_list.splitText()
+chunk_ch2 = chunk_list2.splitText()
 
 
 process GetBams {
@@ -106,12 +108,12 @@ process CreateConsensus {
   tuple file(bam), val(chunk) from featBam_ch
 
   output:
-  tuple val(chunk), file('consensus.fasta') into fasta_ch
+  tuple val(chunk), file('*.fasta') into fasta_ch
 
   script:
   """
   angsd -doFasta 1 -doCounts 1 -setMinDepth ${params.mindepth} -i $bam
-  zcat angsdput.fa.gz | sed 's/>.*/>${bam.baseName}/' > consensus.fasta
+  zcat angsdput.fa.gz | sed 's/>.*/>${bam.baseName}/' > ${bam.baseName}.fasta
   """
 }
 
@@ -121,7 +123,7 @@ process WriteFasta {
   publishDir "${params.outdir}", mode: 'copy'
 
   input:
-  tuple val(chunk), val(fasta) from mfasta_ch
+  tuple val(chunk), file(fasta) from mfasta_ch
 
   output:
   file('*')
