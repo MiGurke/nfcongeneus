@@ -16,8 +16,8 @@ log.info """\
 
  // holds the individual bam files and their index files
  Channel
-    .fromFilePairs("${params.bamdir}*/*{.bam,.bam.bai}")
-    .set{bambai_ch}
+   .fromPath("${params.bamdir}*/*.bam")
+   .set{bam_ch}
 
 
 if (params.feat != null) {
@@ -83,37 +83,37 @@ if (params.win_size != null) {
 chunk_ch = chunk_list.splitText()
 chunk_ch2 = chunk_list2.splitText()
 
-
-process GetBams {
-
+process IndexBAM {
   input:
-  set val(sample_id), file(bam), file(bai) from bambai_ch
+  file(bam) from bam_ch
+
+  output:
+  tuple file(bam), file('*.bai') into bambai_ch
+
+  script:
+  """
+  samtools index $bam
+  """
+}
+
+process CreateConsensus {
+  publishDir "${params.outdir}", mode: 'copy'
+  input:
+  tuple file(bam), file(bai) from bambai_ch
   each chunk from chunk_ch
 
   output:
-  tuple file('*.bam'), val(chunkkkk) into featBam_ch
+  tuple val(chunk), file('*.fasta') into fasta_ch
 
   script:
   chunkk = chunk.trim()
   chunkkk = chunkk.replaceAll(':','_')
   chunkkkk = chunkkk.replaceAll('\\.','_')
   """
-  samtools view -h -X $bam $bai ${chunkk} > ${sample_id}_${chunkkkk}.bam
-  """
-}
-
-process CreateConsensus {
-
-  input:
-  tuple file(bam), val(chunk) from featBam_ch
-
-  output:
-  tuple val(chunk), file('*.fasta') into fasta_ch
-
-  script:
-  """
-  angsd -doFasta 1 -doCounts 1 -setMinDepth ${params.mindepth} -i $bam
-  zcat angsdput.fa.gz | sed 's/>.*/>${bam.baseName}/' > ${bam.baseName}.fasta
+  start=\$(echo $chunkk | sed 's/.*://' | sed 's/-.*//')
+  end=\$(echo $chunkk | sed 's/.*-//')
+  angsd -doFasta 1 -doCounts 1 -r ${chunkk} -setMinDepth ${params.mindepth} -i ${bam}
+  python3 ${projectDir}/bin/red_fasta.py -f angsdput.fa.gz -s \$start -e \$end -b ${bam.baseName} -c ${chunkk} > ${bam.baseName}_${chunkkkk}.fasta
   """
 }
 
@@ -130,7 +130,7 @@ process WriteFasta {
 
   script:
   """
-  cat ${fasta} | sed -e 's/,//g' -e 's/, *//g' -e 's/ //g' -e 's/\\[//g' -e 's/\\]//g' > ${chunk}.fasta
+  cat ${fasta} | sed -e 's/,//g' -e 's/, *//g' -e 's/ //g' -e 's/\\[//g' -e 's/\\]//g' > ${chunk.trim()}.fasta
   """
 
 }
