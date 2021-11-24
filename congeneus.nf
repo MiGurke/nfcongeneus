@@ -101,7 +101,7 @@ process IndexBAM {
 }
 
 process CreateConsensus {
-  publishDir "${params.outdir}", mode: 'copy'
+  
   input:
   tuple file(bam), file(bai) from bambai_ch
   each chunk from chunk_ch
