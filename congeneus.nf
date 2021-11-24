@@ -59,21 +59,25 @@ if (params.win_size != null) {
   for rec in ref:
       id = rec.id
       if id == chr:
-          nparts = len(rec.seq)/piece
+          nparts = (len(rec.seq)/(piece+skip)) + 1
           if nparts < 1:
               line = "$chr"
               print(line)
           else:
-              for i in range(1,int(nparts) + 1):
-                  if i == 1:
+              for i in range(0,int(nparts)):
+                  if i == 0:
                       start = 0
-                      end = piece * i
-                  elif i == int(nparts):
-                      start = (piece + skip) * i + 1
-                      end = len(rec.seq)
+                      end = piece
+                  elif i == int(nparts) - 1:
+                      start = (piece + skip) * i
+                      if (start + piece) > len(rec.seq):
+                        end = len(rec.seq)
+                      else:
+                        end = start + piece
                   else:
-                      start = (piece + skip) * (i-1) + 1
+                      start = (piece + skip) * i
                       end = start + piece
+
                   line = "$chr"+":"+str(start)+"-"+str(end)
                   print(line)
     """
