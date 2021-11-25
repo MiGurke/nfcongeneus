@@ -15,9 +15,13 @@ log.info """\
          .stripIndent()
 
  // holds the individual bam files and their index files
- Channel
-   .fromPath("${params.bamdir}*/*.bam")
-   .set{bam_ch}
+Channel
+ .fromPath("${params.bamdir}*/*.bam")
+ .set{bam_ch}
+
+Channel
+  .fromPath("${params.bamdir}*/*.bai")
+  .set{bai_ch}
 
 
 if (params.feat != null) {
@@ -87,23 +91,13 @@ if (params.win_size != null) {
 chunk_ch = chunk_list.splitText()
 chunk_ch2 = chunk_list2.splitText()
 
-process IndexBAM {
-  input:
-  file(bam) from bam_ch
 
-  output:
-  tuple file(bam), file('*.bai') into bambai_ch
-
-  script:
-  """
-  samtools index $bam
-  """
-}
 
 process CreateConsensus {
-  publishDir "${params.outdir}", mode: 'copy'
+  
   input:
-  tuple file(bam), file(bai) from bambai_ch
+  file(bam) from bam_ch
+  file(bai) from bai_ch
   each chunk from chunk_ch
 
   output:
