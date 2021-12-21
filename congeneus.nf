@@ -54,7 +54,7 @@ if (params.win_size != null) {
 
     script:
     """
-  #!/usr/bin/env python
+  #!/usr/bin/env python3
   from Bio import SeqIO
 
   chr = "$chr"
