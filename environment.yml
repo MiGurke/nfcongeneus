@@ -1,7 +1,9 @@
 name: nfcong
 channels:
  - bioconda
+ - conda-forge
  - default
 dependencies:
  - samtools=1.12
  - angsd=0.935
+ - biopython

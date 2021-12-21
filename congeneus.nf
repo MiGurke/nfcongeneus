@@ -17,10 +17,12 @@ log.info """\
  // holds the individual bam files and their index files
 Channel
  .fromPath("${params.bamdir}*/*.bam")
+ .ifEmpty { error "Please make sure there are bam files correctly located in the bam folder." }
  .set{bam_ch}
 
 Channel
   .fromPath("${params.bamdir}*/*.bai")
+  .ifEmpty { error "Please make sure to habe corresponding index files (.bai) in each of you bam folders." }
   .set{bai_ch}
 
 
@@ -91,10 +93,8 @@ if (params.win_size != null) {
 chunk_ch = chunk_list.splitText()
 chunk_ch2 = chunk_list2.splitText()
 
-
-
 process CreateConsensus {
-  
+
   input:
   file(bam) from bam_ch
   file(bai) from bai_ch
