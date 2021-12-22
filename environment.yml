@@ -6,4 +6,5 @@ channels:
 dependencies:
  - samtools=1.12
  - angsd=0.935
- - biopython
+ - python=3.9
+ - biopython=1.79
