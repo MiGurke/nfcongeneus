@@ -20,11 +20,14 @@ Channel
  .ifEmpty { error "Please make sure there are bam files correctly located in the bam folder." }
  .set{bam_ch}
 
+bam_ch.view { print "$it" }
+
 Channel
   .fromPath("${params.bamdir}*/*.bai")
   .ifEmpty { error "Please make sure to habe corresponding index files (.bai) in each of you bam folders." }
   .set{bai_ch}
 
+bai_ch.view { print "$it" }
 
 if (params.feat != null) {
  process GetFeat {
