@@ -7,9 +7,9 @@ def GetArguments():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-f", "--fasta_folder", type=str, required=True)
-    parser.add_argument("-m", "--min_ind", type=int, required=True)
-    parser.add_argument("-o", "--outdir", type=str, required=True)
+    parser.add_argument("-f", "--fasta_folder", type=str, required=True, help="The folder that holds the NfracSeqRemover.py outputted fasta files.")
+    parser.add_argument("-m", "--min_ind", type=int, required=True, help="The minimum number of sequences a file must hold in order to be outputted into the the output directory.")
+    parser.add_argument("-o", "--outdir", type=str, required=True, help="The diretory were filtered output should be written into. Output will be renamed and will not overwrite any previous output.")
     args = parser.parse_args()
     return args
 
