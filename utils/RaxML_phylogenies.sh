@@ -45,8 +45,8 @@ cd $outfolder
 c=0
 for fasta in $infolder*.fasta; do
    ((i=i%N)); ((i++==0)) && wait
-   sed -i "s/_$(basename $fasta .fasta)//g" $fasta 
-   raxmlHPC-PTHREADS -m GTRGAMMA -T $threads -p 12345 -s $fasta -N $MLsearches -n $(basename $fasta .fasta) #> /dev/null &
+   sed -i 's/://g' $fasta &
+   raxmlHPC-PTHREADS -m GTRGAMMA -T $threads -p 12345 -s $fasta -N $MLsearches -n $(basename $fasta .fasta) > /dev/null &
    c=$((c+1))
    echo "$c fasta files processed."
 done
