@@ -17,7 +17,7 @@ def MinIndivs(file, min, out):
     counter = 0
     for genomes in SeqIO.parse(file, 'fasta'):
         counter = counter + 1
-    if counter => min:
+    if counter >= min:
         outfile = out+"/"+os.path.basename(file)[:-6]+"_"+str(counter)+"_Indivs.fasta"
         os.system("cp "+file+" "+outfile)
 
