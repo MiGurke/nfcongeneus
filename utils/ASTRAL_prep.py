@@ -8,7 +8,7 @@ def GetArguments():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-i", "--infolder", type=str, required=True)
+    parser.add_argument("-f", "--fasta_folder", type=str, required=True)
     parser.add_argument("-o", "--outfile", type=str, required=True)
     args = parser.parse_args()
     return args
@@ -26,7 +26,7 @@ def RedTip(tree):
 def main():
     arg = GetArguments()
     tlist = []
-    for tree in glob.glob(arg.infolder+"/*bestTree*"):
+    for tree in glob.glob(arg.fasta_folder+"/*bestTree*"):
         tlist.append(RedTip(tree))
     Phylo.write(tlist, arg.outfile, "newick")
 
