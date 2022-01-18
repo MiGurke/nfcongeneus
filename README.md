@@ -15,12 +15,12 @@ The feature mode creates consensus sequences for each feature of a given feature
 **Usage:**
 
 ```bash
-nextflow run congeneus.nf --bamdir /PATH/TO/BAM/FILES --anno /PATH/TO/ANNOTATION/FILE --feat feat --outdir /PATH/TO/OUTPUT/DIR/ --mindepth INT
+nextflow run congeneus.nf --bamdir /PATH/TO/BAM/FILES/ --anno /PATH/TO/ANNOTATION/FILE.gff --feat feat --outdir /PATH/TO/OUTPUT/DIR/ --mindepth INT
 ```
 
 **Parameters:**
 
-* --bamdir : Path to directory with sub folders for each individual. Each sub folder must hold one bam and one bai file.
+* --bamdir : Path to directory with sub folders for each individual. Each sub folder must hold one bam and one bai file. Path must end on "/".
 * --anno : Path to an annotation file in .gff format.
 * --feat : The type of the feature for which consensus sequences should be created (f.e. gene, CDS, etc.). Can be every feature present in the annotation file.
 * --mindepth: The minimum depth at which a base should be determined as consensus.
@@ -37,12 +37,12 @@ In the window mode nfcongenenus creates consensus sequences for all windows of a
 **Usage:**
 
 ```bash
-nextflow run congeneus.nf --bamdir /PATH/TO/BAM/FILES --ref /PATH/TO/REFERENCE/FILE --win_size INT --outdir /PATH/TO/OUTPUT/DIR/ --mindepth INT
+nextflow run congeneus.nf --bamdir /PATH/TO/BAM/FILES/ --ref /PATH/TO/REFERENCE/FILE --win_size INT --outdir /PATH/TO/OUTPUT/DIR/ --mindepth INT
 ```
 
 **Parameters:**
 
-* --bamdir : Path to directory in with sub folders for each individual. Each sub folder must hold one bam and one bai file.
+* --bamdir : Path to directory in with sub folders for each individual. Each sub folder must hold one bam and one bai file. Path must end on "/".
 * --ref : Path to the reference genome assembly fasta file.
 * --win_size : Size of the windows for which the consensus should be called (f.e. 10000).
 * --skip : Size of the part between the windows that is skipped. (f.e. 20000)
