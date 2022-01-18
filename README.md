@@ -15,7 +15,7 @@ The feature mode creates consensus sequences for each feature of a given feature
 **Usage:**
 
 ```bash
-nextflow run congeneus.nf --bamdir /PATH/TO/BAM/FILES/ --anno /PATH/TO/ANNOTATION/FILE.gff --feat feat --outdir /PATH/TO/OUTPUT/DIR/ --mindepth INT
+nextflow run congeneus.nf --bamdir /PATH/TO/BAM/FILES/ --anno /PATH/TO/ANNOTATION/FILE.gff --feat feat --outdir /PATH/TO/OUTPUT/DIR/ --mindepth INT -profile mfn
 ```
 
 **Parameters:**
@@ -25,6 +25,7 @@ nextflow run congeneus.nf --bamdir /PATH/TO/BAM/FILES/ --anno /PATH/TO/ANNOTATIO
 * --feat : The type of the feature for which consensus sequences should be created (f.e. gene, CDS, etc.). Can be every feature present in the annotation file.
 * --mindepth: The minimum depth at which a base should be determined as consensus.
 * --outdir : Path to directory were the output of the pipeline will be written into.
+* -profile mfn : Include if running on the cluster at the Museum für Naturkunde to use the automatic job submission. If not inlcuded in the command it will run locally. 
 
 **Output:**
 
@@ -48,6 +49,7 @@ nextflow run congeneus.nf --bamdir /PATH/TO/BAM/FILES/ --ref /PATH/TO/REFERENCE/
 * --skip : Size of the part between the windows that is skipped. (f.e. 20000)
 * --outdir : Path to directory were the output of the pipeline will be written into.
 * --chr :  Path to a file that contains a list chromosome names of from the reference fasta, which should be included in the consensus calling.
+* -profile mfn : Include if running on the cluster at the Museum für Naturkunde to use the automatic job submission. If not inlcuded in the command it will run locally. 
 
 Example chr file:
 
