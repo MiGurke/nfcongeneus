@@ -49,6 +49,7 @@ nextflow run congeneus.nf --bamdir /PATH/TO/BAM/FILES/ --ref /PATH/TO/REFERENCE/
 * --skip : Size of the part between the windows that is skipped. (f.e. 20000)
 * --outdir : Path to directory were the output of the pipeline will be written into.
 * --chr :  Path to a file that contains a list chromosome names of from the reference fasta, which should be included in the consensus calling.
+* --mindepth: The minimum depth at which a base should be determined as consensus.
 * -profile mfn : Include if running on the cluster at the Museum für Naturkunde to use the automatic job submission. If not inlcuded in the command it will run locally. 
 
 Example chr file:
