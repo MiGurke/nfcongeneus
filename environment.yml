@@ -9,3 +9,4 @@ dependencies:
  - python=3.9
  - biopython=1.79
  - raxml=8.2.12
+ - nextflow 
