@@ -2,6 +2,7 @@
 #Ignore these directories:
 .nextflow/
 work/
+utils/nfraxml/work/
 
 #Ignore these files:
 .nextflow.log*
