@@ -170,3 +170,22 @@ python3 ASTRAL_prep.py -f /PATH/TO/INPUT/FOLDER/ -o /PATH/TO/OUTFILE.new
 
 A newick formatted tree file that contains all phylogenies that were in the RAxML output folder. The tip names of each tree are reduced to only the sample names. 
 
+### Nfraxml
+Nfraxml is a small nextflow pipeline that does the same job as the RaxML_phylogenies script. I found that for large data sets it is more convienient to use nextflow with multtiple jobs started than one huge job that occupies many ressources for a long time on a cluster. 
+
+**So far this is only tested on the FU curta, not on the mfn cluster** (It is however very likely that it also works there and I inlcuded a config file for it.)
+
+**Usage**
+
+```bash
+nextflow run raxml.nf -profile CHAR --fastadir /PATH/TO/DIR/WITH/FASTA/FILES/ --outdir /PATH/TO/OUTPUT/DIR/ --MLsearches INT
+```
+**Parameters:**
+
++ -profile : Either local, curta or mfn depending on where the pipeline is supposed to run. 
++ --fastadir : Path to a directory in which the fasta files are located. Each file with the ending '.fasta' will be analyzed. 
++ --outdir : The folder where the raxml output files will stored in. 
++ --MLsearches : And integer telling raxml how many maximum likelihood searches should be carried out for each tree generated.
+
+**Output:**
+Output is a folder filled with all raxml output files for each tree generated.
