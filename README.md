@@ -175,7 +175,7 @@ Nfraxml is a small nextflow pipeline that does the same job as the RaxML_phyloge
 
 **So far this is only tested on the FU curta, not on the mfn cluster** (It is however very likely that it also works there and I inlcuded a config file for it.)
 
-**Tipp:** Copy this pipeline out of the overall nfcongeneus folder to avoid conflicts of the nextflow working diretories. This might make debugging easier in case its necessary (hopefully not^^
+**Tipp:** Copy this pipeline out of the overall nfcongeneus folder to avoid conflicts of the nextflow working diretories. This might make debugging easier in case its necessary (hopefully not ;) )
 
 **Usage**
 
