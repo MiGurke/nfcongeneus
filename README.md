@@ -7,10 +7,9 @@ This pipeline creates multi-fasta files with consensus sequences of multiple ind
 The feature mode creates consensus sequences for each feature of a given feature type, for example each gene of the genome. To find the locations of each of those features, the pipeline uses the information given to it by an annotation file. These are the steps of this mode.
 
 1. Creating a list with the locations of all feature.
-2. Indexing the bam files.
-3. Creating bam files for each feature from the feature list.
-4. Calling the consensus using the [doFasta 1](http://www.popgen.dk/angsd/index.php/Fasta) algorithm of angsd.
-5. Writing the fasta sequences into one file per feature.
+2. Creating bam files for each feature from the feature list.
+3. Calling the consensus using the [doFasta 1](http://www.popgen.dk/angsd/index.php/Fasta) algorithm of angsd.
+4. Writing the fasta sequences into one file per feature.
 
 **Usage:**
 
